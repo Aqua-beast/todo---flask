@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock %} {% block body %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">To-Do List</h1>
+
+  <!-- Add Task Form -->
+  <form
+    id="todo-form"
+    class="form-inline justify-content-center align-items-center mb-4"
+    action="/"
+    method="POST"
+  >
+    <input
+      type="text"
+      id="todo-desc"
+      class="form-control mr-2"
+      placeholder="Add task description"
+      required
+      name="desc"
+    />
+    <input
+      type="text"
+      id="todo-input"
+      class="form-control mr-2"
+      placeholder="Add a new task"
+      name="task"
+      required
+    />
+    <button type="submit" class="btn btn-primary">Add Task</button>
+  </form>
+
+  {% if todos|length == 0 %}
+  <div class="alert alert-warning text-center">No Tasks Found</div>
+  {% else %}
+  <!-- To-Do List -->
+  <div class="container">
+    <ul id="todo-list" class="row row-cols-4">
+      {% for todo in todos %}
+      <li class="card" style="width: 18rem; margin-right: 1rem">
+        <div class="card-body">
+          <h5 class="card-title">{{loop.index}} - <b>{{ todo.task }}</b></h5>
+          <p class="card-text">{{todo.desc}}</p>
+          <div class="d-flex justify-content-between">
+            <a href="/delete/{{todo.id}}" class="btn btn-outline-danger btn-md">
+              Delete <i class="fa-solid fa-trash"></i>
+            </a>
+            <a href="/edit/{{todo.id}}" class="btn btn-outline-success btn-md">
+              Edit <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+
+{% endblock body %}

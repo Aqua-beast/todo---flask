@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+Update
+{% endblock %}
+{% block body %}
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">To-Do List</h1>
+
+      <!-- Add Task Form -->
+      <form
+        id="todo-form"
+        class="form-inline justify-content-center align-items-center mb-4"
+        action="/edit/{{todo.id}}" method="POST"
+      >
+        <input
+          type="text"
+          id="todo-desc"
+          class="form-control mr-2"
+          placeholder="Add task description"
+          required
+          name="desc"
+          value="{{todo.desc}}"
+        />
+        <input
+          type="text"
+          id="todo-input"
+          class="form-control mr-2"
+          placeholder="Add a new task"
+          name="task"
+          required
+          value="{{todo.task}}"
+        />
+        <button type="submit" class="btn btn-primary">Edit Task</button>
+        
+      </form>
+      <div class="alert alert-success text-center m-4 mt-5">Update Your Task</div>
+
+{% endblock body %}
