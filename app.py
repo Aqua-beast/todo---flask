@@ -10,18 +10,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    task = db.Column(db.String(200), nullable=False)
-    desc =  db.Column(db.String(500), nullable=False)
-    date = db.Column(default=datetime.utcnow)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    task: Mapped[str] = mapped_column(unique=True)
+    desc: Mapped[str] = mapped_column()
+    date: Mapped[datetime] = mapped_column(default=datetime.utcnow)
    
     def __repr__(self) -> str:
         return f"{self.id} - {self.task} - {self.desc}"
-
-@app.before_first_request
-def create_tables():
-    with app.app_context():
-        db.create_all()
 
 @app.route("/", methods=['GET', 'POST'])
 def homepage():
@@ -30,6 +25,7 @@ def homepage():
         desc = request.form.get('desc')
         if task and desc:
             todo = Todo(task=task, desc=desc)
+            # print(todo)
             db.session.add(todo)
             db.session.commit()
     todos = Todo.query.all()
@@ -51,6 +47,7 @@ def edit(sno):
         todo.desc = request.form['desc']
         db.session.commit()
         return redirect('/')
+    
     return render_template('update.html', todo=todo)
 
 if __name__ == "__main__":
