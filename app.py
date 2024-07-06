@@ -10,10 +10,10 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 class Todo(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-    task: Mapped[str] = mapped_column(unique=True)
-    desc: Mapped[str] = mapped_column()
-    date: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    task = db.Column(db.String(200), nullable=False)
+    desc =  db.Column(db.String(500), nullable=False)
+    date = db.Column(default=datetime.utcnow)
    
     def __repr__(self) -> str:
         return f"{self.id} - {self.task} - {self.desc}"
